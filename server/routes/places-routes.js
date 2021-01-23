@@ -13,4 +13,10 @@ router.get('/user/:uid',placesControllers.getPlaceByUserId)
 // create places 
 router.post('/', placesControllers.createPlace);
 
+// Update place route
+router.patch('/:pid', placesControllers.updatePlace);
+
+// Delete place route
+router.delete('/:pid', placesControllers.deletePlace)
+
 module.exports= router
