@@ -1,4 +1,7 @@
+// const uuid = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid');
 const HttpError = require('../models/http-error');
+
 
 // Get place by id route
 const getPlaceById = (req, res, next) => {
@@ -50,6 +53,7 @@ const DUMMY_PLACES = [
 const createPlace = (req, res, next) => {
      const { title, description, cordinates, address, creator } = req.body; 
      const createdPlace = {
+         id:uuidv4(),
          title,
          description,
          location: cordinates,

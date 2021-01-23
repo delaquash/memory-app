@@ -13,5 +13,4 @@ router.get('/user/:uid',placesControllers.getPlaceByUserId)
 // create places 
 router.post('/', placesControllers.createPlace);
 
-
 module.exports= router
