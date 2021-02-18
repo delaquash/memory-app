@@ -1,8 +1,24 @@
 // const uuid = require('uuid/v4')
 const { v4: uuidv4 } = require('uuid');
-const { prepareStackTrace } = require('../models/http-error');
 const HttpError = require('../models/http-error');
 const router = require('../routes/places-routes');
+const { validationResult } = require('express-validator');
+const getCordinateForAddress = require('../utils/location');
+
+// Dummy data
+let DUMMY_PLACES = [
+    {
+        id: 'p1',
+    title: 'Empire State Building',
+    description: 'One of the most famous sky scrappers in the world!',
+    location: {
+        lat: 40.7484474,
+        long: - 73.9871516
+    },
+    address: '20W 34th St, New York, NY 10001',
+    creator: 'ul' 
+    }  
+];
 
 
 // Get place by id route
@@ -37,26 +53,17 @@ const getPlacesByUserId = (req, res, next) => {
 }
 
 
-// Dummy data
-let DUMMY_PLACES = [
-    {
-        id: 'p1',
-    title: 'Empire State Building',
-    description: 'One of the most famous sky scrappers in the world!',
-    location: {
-        lat: 40.7484474,
-        long: - 73.9871516
-    },
-    address: '20W 34th St, New York, NY 10001',
-    creator: 'ul' 
-    }  
-];
 
-const createPlace = (req, res, next) => {
+
+const createPlace = async (req, res, next) => {
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        throw new HttpError('Invalid credentials passed, please check your data and re-enter.', 422);
+    }
     // Has access to to body
-     const { title, description, cordinates, address, creator } = req.body; 
+     const { title, description, address, creator } = req.body; 
      const createdPlace = {
-         id:uuidv4(),
+         id: uuidv4(),
          title,
          description,
          location: cordinates,
@@ -64,11 +71,21 @@ const createPlace = (req, res, next) => {
          creator
      };
 
-     DUMMY_PLACES.push(createdPlace);
-     res.status(201).json({ place: createdPlace })
+    let cordinates;
+    try {
+        cordinates = await getCordinateForAddress(address);
+    } catch (error) {
+        return next(error)
+    };
+    DUMMY_PLACES.push(createdPlace);
+    res.status(201).json({ place: createdPlace });   
 };
 
 const updatePlace = (req, res, next)=> {
+    const error = validationResult(req);
+    if(!error.isEmpty()){
+        throw new HttpError('Invalid credentials passed, please check your data and re-enter.', 422);
+    }
     // Has access to the body
     const { title, description, cordinates, address, creator } = req.body; 
     // to get the place id
@@ -84,7 +101,9 @@ const updatePlace = (req, res, next)=> {
 }
 
 const deletePlace = (req, res, next) => {
-    const placeId = req.params.pid
+   const placeId = req.params.pid;
+   if(DUMMY_PLACES.find(p => p.id === placeId)) {
+       throw new HttpError('Could not find the place for that id.', 404);   }
    DUMMY_PLACES =  DUMMY_PLACES.filter(p => p.id !== placeId);
    res.status(200).json({ message: "Deleted Place!"})
 }
