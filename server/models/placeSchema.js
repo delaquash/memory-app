@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const Schema = Mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const placeShema = new Schema({
     title: {
@@ -24,14 +24,15 @@ const placeShema = new Schema({
             type: Number,
             required: true
         }, 
-            lng: {
-                type: Number,
-                required: true
+        lng: {
+            type: Number,
+            required: true
         }
     }, 
     creator : {
-        type: String,
-        required: true
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'User'
     }
 })
 
