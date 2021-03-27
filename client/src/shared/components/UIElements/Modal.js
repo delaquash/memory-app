@@ -1,8 +1,7 @@
-
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
 import './Modal.css';
-import React from 'react';
 import Backdrop from './BackDrop';
 
 const ModalOverlay = props => {
@@ -11,7 +10,7 @@ const ModalOverlay = props => {
             <header className={`modal__header ${props.headerClass}`}>
                 <h2>{props.header}</h2>
             </header>
-            <form onSubmit={props.onSubmit ? props.onSubmit: e =>e.preventDefault}>
+            <form onSubmit={props.onSubmit ? props.onSubmit: e =>e.preventDefault()}>
                 <div className={`modal__content ${props.contentClass}`}>
                     {props.children}
                 </div>

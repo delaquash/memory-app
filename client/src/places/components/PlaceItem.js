@@ -20,7 +20,12 @@ const PlaceItem= props=> {
                 header={props.address}
                 contentClass="place-item__modal-content"
                 footerClass="place-item__modal-actions"
-            />
+                footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
+            >
+                <div className="map-container">
+                    The MAP
+                </div>
+            </Modal>
              <li className="place-item">
                     <Card>
                         <div className="place-item__image">
@@ -32,7 +37,7 @@ const PlaceItem= props=> {
                             <p>{props.description}</p>
                         </div>
                         <div className="place-item__actions">
-                            <Button inverse>VIEW ON MAP</Button>
+                            <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
                             <Button to={`/places/${props.id}`}>EDIT</Button>
                             <Button danger>DELETE</Button>
                         </div>
