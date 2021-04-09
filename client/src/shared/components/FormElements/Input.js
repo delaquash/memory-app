@@ -7,7 +7,7 @@ const inputReducer = (state, action) => {
     switch(action.type) {
         case 'CHANGE_ACTION':
             return {
-                ...state, value: action.value, 
+                ...state, value: action.val, 
                 isValid : validate(action.val, action.validators)
             };
             case "TOUCH_ACTION":
