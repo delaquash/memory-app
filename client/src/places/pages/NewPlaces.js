@@ -54,9 +54,13 @@ const formReducer = (state, action) => {
             });
      }, [])
 
+const placeSubmitHandler = e => {
+    e.preventDefault();
+    console.log(formState.inputs)
+}
      
     return (
-        <form className="place-form"> 
+        <form className="place-form" onSubmit={placeSubmitHandler}> 
             <Input 
                 id="title" 
                 element="input" 
@@ -66,11 +70,19 @@ const formReducer = (state, action) => {
                 onInput={inputHandler}
             />
              <Input 
-                type="description" 
+                id="description" 
                 element="textarea" 
                 label="Description" 
                 validators={[ VALIDATOR_MINLENGTH(5)]} 
                 errorText="Please enter a valid description and atleast 5 characters."
+                onInput={inputHandler}
+            />
+             <Input 
+                id="address" 
+                element="input" 
+                label="Address" 
+                validators={[VALIDATOR_MINLENGTH()]} 
+                errorText="Please enter a valid address."
                 onInput={inputHandler}
             />
             <Button type='submit' disabled={!formState.isValid}>
