@@ -81,7 +81,7 @@ const placeSubmitHandler = e => {
                 id="address" 
                 element="input" 
                 label="Address" 
-                validators={[VALIDATOR_MINLENGTH()]} 
+                validators={[VALIDATOR_REQUIRE()]} 
                 errorText="Please enter a valid address."
                 onInput={inputHandler}
             />
