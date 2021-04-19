@@ -8,10 +8,7 @@ import UpdatePlace from './places/pages/UpdatePlace';
 import Auth from './user/pages/Auth';
 import { AuthContext } from './shared/context/auth-context';
 
-
 import './App.css';
-
-
 
 const App =() =>{
   const [isLoggedIn, setIsLoggedIn] = useState(false);
