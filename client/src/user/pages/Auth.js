@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../shared/utils/validator';
 import { useForm } from '../../shared/hooks/form-hooks';
+import { AuthContext } from '../../shared/context/auth-context';
+
 
 import './Auth.css';
 
 const Auth = ()=> {
+    const auth = useContext(AuthContext);
     const [isLogin, setIsLogin] = useState(true)
     const [formState, inputHandler, setFormData] = useForm({
         email: {
@@ -41,6 +44,7 @@ const Auth = ()=> {
     const authSubmitHandler =e=>{
         e.preventDefault()
         console.log(formState.inputs)
+        auth.login()
     }
     return (
         <Card className="authentication">
@@ -48,7 +52,7 @@ const Auth = ()=> {
 
             <hr />
             <form onSubmit={authSubmitHandler}>
-                {isLogin && <Input
+                {!isLogin && <Input
                     element="input"
                     id="name"
                     type="text"
