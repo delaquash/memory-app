@@ -8,7 +8,9 @@ const usersRoutes = require('./routes/users-routes');
 
 
 const app = express();
-app.use(bodyParser.json())
+// app.use(bodyParser.json()) deprecated
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
 
 app.use('/api/places',placesRoutes);
 app.use('/api/users', usersRoutes);
@@ -25,7 +27,7 @@ app.use((req, res, next) => {
 
 // handling cors
 app.use((req, res, next) => {
-    res.setHeader('Access=Control-Allow-Origin', 'x');
+    res.setHeader('Access-Control-Allow-Origin', 'x');
     res.setHeader(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept, Authorization'
@@ -50,9 +52,10 @@ mongoose.connect(db_Url,
      { 
          useNewUrlParser : true, 
          useUnifiedTopology: true,
-         useCreateIndex: true 
+         useCreateIndex: true
     })
         .then(() => {
+            console.log("Connected")
             app.listen(5000);
         })
         .catch(err => {

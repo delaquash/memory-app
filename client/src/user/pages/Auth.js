@@ -1,14 +1,17 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
 import Card from '../../shared/components/UIElements/Card';
+import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
+import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../shared/utils/validator';
 import { useForm } from '../../shared/hooks/form-hooks';
 import { AuthContext } from '../../shared/context/auth-context';
 
 
 import './Auth.css';
+
 
 const Auth = ()=> {
     const auth = useContext(AuthContext);
@@ -62,7 +65,10 @@ const Auth = ()=> {
                     })
                 })   
                 const responseData = await res.json();
-                console.log(responseData); 
+                console.log(responseData);
+                if(!res.ok){
+                    throw new Error(res.message)
+                } 
                 setIsLoading(false)
                 auth.login();
             } catch (err) {
@@ -74,8 +80,14 @@ const Auth = ()=> {
     setIsLoading(false)
  
 }
+const errorHandler = ()=> {
+    setError(null)
+}
     return (
+        <React.Fragment>
+            <ErrorModal  error={error}  onClear={errorHandler}/>
         <Card className="authentication">
+            {isLoading && <LoadingSpinner asOverlay />}
             <h2>Login Required</h2>
 
             <hr />
@@ -115,6 +127,7 @@ const Auth = ()=> {
                 SWITCH TO {isLogin? 'SIGN UP': 'LOGIN'}
             </Button>
         </Card>
+        </React.Fragment>
     )
 }
 
