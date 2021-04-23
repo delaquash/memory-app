@@ -3,7 +3,6 @@ const { check } = require('express-validator');
 const HttpError = require('../models/http-error');
 const placesControllers = require('../controllers/places-controller');
 
-
 const router = express.Router();
 
 // get places by id
