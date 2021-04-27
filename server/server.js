@@ -18,7 +18,7 @@ app.use('/api/users', usersRoutes);
 
 // connectDB()
 // Database Connection
-const db_Url = "mongodb+srv://delaquash:Equarshie85@MERN-MEMORY-APP.acsl8.mongodb.net/MERN-MEMORY-APP?retryWrites=true&w=majority";
+const db_Url = "mongodb+srv://delaquash:Equarshie85@MERN-MEMORY-APP.acsl8.mongodb.net/user?retryWrites=true&w=majority";
 
 // Handling errors for unsupported routes
 app.use((req, res, next) => {
